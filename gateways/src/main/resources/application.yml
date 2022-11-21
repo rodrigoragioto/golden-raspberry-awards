@@ -15,8 +15,6 @@ spring:
         web-allow-others: false
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: update
     properties:
       hibernate:
         show_sql: false

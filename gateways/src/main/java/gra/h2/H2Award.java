@@ -30,7 +30,7 @@ public class H2Award {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "YEAR", nullable = false)
+	@Column(name = "AWARD_YEAR", nullable = false)
 	private Integer year;
 
 	@JoinColumn(name = "MOVIE_ID", nullable = false)
