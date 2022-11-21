@@ -1,4 +1,4 @@
-package gra.h2.find;
+package gra.h2;
 
 import static java.util.stream.Collectors.toList;
 

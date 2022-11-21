@@ -24,6 +24,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity(name = "AWARD")
 public class H2Award {
+	public static H2Award from(Award award) {
+		return H2Award.builder()
+			.id(award.getId())
+			.year(award.getYear())
+			.winner(H2Movie.from(award.getWinner()))
+			.build();
+	}
 
 	@Setter(value = AccessLevel.PRIVATE)
 	@Id

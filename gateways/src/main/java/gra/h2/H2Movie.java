@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import gra.Movie;
+import gra.Producer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity(name = "MOVIE")
 public class H2Movie {
+
+	public static H2Movie from(Movie movie) {
+		return H2Movie.builder()
+			.id(movie.getId())
+			.name(movie.getName())
+			.producer(H2Producer.from(movie.getProducer()))
+			.build();
+	}
 
 	@Setter(value = AccessLevel.PRIVATE)
 	@Id
