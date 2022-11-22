@@ -1,4 +1,4 @@
-package gra.h2;
+package gra.h2.create;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyIterable;
@@ -12,9 +12,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import gra.Producer;
+import gra.h2.H2ProducerRepository;
 
 @DataJpaTest
-@Import(H2GatewaysConfiguration.class)
+@Import(H2CreateGatewaysConfiguration.class)
 class H2CreateProducerGatewayTest {
 
 	@Autowired
@@ -25,14 +26,16 @@ class H2CreateProducerGatewayTest {
 
 	@Test
 	void shouldExecuteSuccessfully() {
+		final String name = "Quentin Tarantino";
+
 		final Producer producer = createProducerGateway.execute(
 			Producer.builder()
-				.name("Producer")
+				.name(name)
 				.build()
 		);
 
 		assertThat(producer.getId(), notNullValue());
-		assertThat(producer.getName(), is("Producer"));
+		assertThat(producer.getName(), is(name));
 
 		assertThat(producerRepository.findAll(), not(emptyIterable()));
 

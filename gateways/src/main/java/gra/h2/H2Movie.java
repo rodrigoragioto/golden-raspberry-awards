@@ -1,17 +1,20 @@
 package gra.h2;
 
-import static javax.persistence.CascadeType.ALL;
+import static java.util.stream.Collectors.toList;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 
 import gra.Movie;
-import gra.Producer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,14 +29,6 @@ import lombok.Setter;
 @Entity(name = "MOVIE")
 public class H2Movie {
 
-	public static H2Movie from(Movie movie) {
-		return H2Movie.builder()
-			.id(movie.getId())
-			.name(movie.getName())
-			.producer(H2Producer.from(movie.getProducer()))
-			.build();
-	}
-
 	@Setter(value = AccessLevel.PRIVATE)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,15 +37,26 @@ public class H2Movie {
 	@Column(name = "NAME", nullable = false)
 	private String name;
 
-	@JoinColumn(name = "PRODUCER_ID", nullable = false)
-	@OneToOne(cascade = ALL, orphanRemoval = true)
-	private H2Producer producer;
+	@Column(name = "MOVIE_YEAR", nullable = false)
+	private Integer year;
+
+	@Column(name = "WINNER", nullable = false)
+	private boolean winner;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "MOVIE_PRODUCERS", joinColumns = @JoinColumn(name = "MOVIE_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCER_ID"))
+	private List<H2Producer> producers;
 
 	public Movie toMovie() {
 		return Movie.builder()
 			.id(this.getId())
 			.name(this.getName())
-			.producer(this.getProducer().toProducer())
+			.year(this.getYear())
+			.winner(this.isWinner())
+			.producers(this.getProducers()
+				.stream()
+				.map(H2Producer::toProducer)
+				.collect(toList()))
 			.build();
 	}
 

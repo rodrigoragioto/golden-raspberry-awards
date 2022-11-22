@@ -1,4 +1,4 @@
-package gra.h2;
+package gra.h2.create;
 
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,13 @@ class H2CreateProducerGateway implements CreateProducerGateway {
 
 	@Override
 	public Producer execute(Producer producer) {
-		return producerRepository.save(H2Producer.from(producer)).toProducer();
+		return producerRepository.save(
+				H2Producer.builder()
+					.id(producer.getId())
+					.name(producer.getName())
+					.build())
+			.toProducer();
 	}
+
 }
 

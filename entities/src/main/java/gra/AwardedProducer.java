@@ -1,5 +1,7 @@
 package gra;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,12 +9,10 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class Award {
+public class AwardedProducer {
 
-	private final Long id;
+	private final Producer producer;
 
-	private final Integer year;
-
-	private final Movie winner;
+	private final List<Integer> years;
 
 }

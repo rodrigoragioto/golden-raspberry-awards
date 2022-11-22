@@ -1,5 +1,7 @@
 package gra;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +15,10 @@ public class Movie {
 
 	private final String name;
 
-	private final Producer producer;
+	private final Integer year;
+
+	private final boolean winner;
+
+	private final List<Producer> producers;
 
 }

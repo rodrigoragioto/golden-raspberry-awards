@@ -8,4 +8,8 @@ public class ProducerNotFoundException extends RuntimeException {
 		super("Producer not found: " + id);
 	}
 
+	public ProducerNotFoundException(String name) {
+		super("Producer not found: " + name);
+	}
+
 }

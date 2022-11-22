@@ -1,11 +1,9 @@
-package gra.h2;
+package gra.h2.find;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
-import gra.h2.H2AwardRepository;
-import gra.h2.H2FindProducerGateway;
 import gra.h2.H2MovieRepository;
 import gra.h2.H2ProducerRepository;
 import gra.ports.FindProducerGateway;
@@ -19,10 +17,10 @@ public class H2FindGatewaysConfiguration {
 	@Autowired
 	private H2MovieRepository movieRepository;
 
-	@Autowired
-	private H2AwardRepository awardRepository;
-
-
+	@Bean
+	public FindProducerGateway findProducerGateway() {
+		return new H2FindProducerGateway(producerRepository);
+	}
 
 }
 

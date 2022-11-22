@@ -4,6 +4,6 @@ import gra.Producer;
 
 public interface FindProducerGateway {
 
-	Producer execute(Long id);
+	Producer execute(String name);
 
 }

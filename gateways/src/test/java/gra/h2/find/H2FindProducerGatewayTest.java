@@ -1,4 +1,4 @@
-package gra.h2;
+package gra.h2.find;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -10,30 +10,31 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import gra.Producer;
-import gra.ports.CreateProducerGateway;
+import gra.h2.H2Producer;
+import gra.h2.H2ProducerRepository;
 
 @DataJpaTest
-@Import({H2GatewaysConfiguration.class, H2FindGatewaysConfiguration.class})
+@Import(H2FindGatewaysConfiguration.class)
 class H2FindProducerGatewayTest {
 
 	@Autowired
 	private H2FindProducerGateway findProducerGateway;
 
 	@Autowired
-	private CreateProducerGateway createProducerGateway;
+	private H2ProducerRepository producerRepository;
 
 	@Test
 	void shouldExecuteSuccessfully() {
-		final Producer producer = createProducerGateway.execute(
-			Producer.builder()
-				.name("Producer")
+		final H2Producer producer = producerRepository.save(
+			H2Producer.builder()
+				.name("Quentin Tarantino")
 				.build()
 		);
 
-		final Producer find = findProducerGateway.execute(producer.getId());
+		final Producer find = findProducerGateway.execute(producer.getName());
 
 		assertThat(find.getId(), notNullValue());
-		assertThat(find.getName(), is("Producer"));
+		assertThat(find.getName(), is(producer.getName()));
 	}
 
 }

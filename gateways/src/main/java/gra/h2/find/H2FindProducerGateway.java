@@ -1,4 +1,4 @@
-package gra.h2;
+package gra.h2.find;
 
 import org.springframework.stereotype.Component;
 
@@ -17,9 +17,9 @@ class H2FindProducerGateway implements FindProducerGateway {
 	private final H2ProducerRepository producerRepository;
 
 	@Override
-	public Producer execute(Long id) {
-		return producerRepository.findById(id)
-			.orElseThrow(() -> new ProducerNotFoundException(id))
+	public Producer execute(String name) {
+		return producerRepository.findByName(name)
+			.orElseThrow(() -> new ProducerNotFoundException(name))
 			.toProducer();
 	}
 
