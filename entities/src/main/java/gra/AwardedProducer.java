@@ -1,7 +1,5 @@
 package gra;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +11,9 @@ public class AwardedProducer {
 
 	private final Producer producer;
 
-	private final List<Integer> years;
+	private final Integer interval;
 
+	private final Integer previousWin;
+
+	private final Integer followingWin;
 }

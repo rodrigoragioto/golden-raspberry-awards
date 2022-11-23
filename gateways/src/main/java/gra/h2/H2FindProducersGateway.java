@@ -12,11 +12,11 @@ import gra.ports.FindProducersGateway;
 @Component
 class H2FindProducersGateway implements FindProducersGateway {
 
+	private final H2ProducerRepository producerRepository;
+
 	H2FindProducersGateway(H2ProducerRepository producerRepository) {
 		this.producerRepository = producerRepository;
 	}
-
-	private final H2ProducerRepository producerRepository;
 
 	@Override
 	public Set<Producer> execute() {

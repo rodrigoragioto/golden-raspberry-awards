@@ -12,7 +12,6 @@ class H2GatewaysConfiguration {
 	@Autowired
 	private H2ProducerRepository producerRepository;
 
-
 	@Bean
 	public FindProducersGateway findMoviesGateway() {
 		return new H2FindProducersGateway(producerRepository);
