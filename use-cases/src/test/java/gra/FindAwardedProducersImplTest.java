@@ -32,6 +32,7 @@ class FindAwardedProducersImplTest {
 	@Test
 	void shouldExecuteSuccessfully() {
 		final FindAwardedProducersOutputBoundary boundary = findAwardedProducers.execute(EmptyInputBoundary.builder().build());
+
 	}
 
 }

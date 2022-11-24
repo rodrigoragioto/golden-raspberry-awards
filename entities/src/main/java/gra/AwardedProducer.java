@@ -1,19 +1,17 @@
 package gra;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import static java.util.Comparator.comparingInt;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+
+import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import lombok.Data;
 
 @Data
-@Builder
-@AllArgsConstructor
 public class AwardedProducer {
 
-	private final Producer producer;
 
-	private final Integer interval;
-
-	private final Integer previousWin;
-
-	private final Integer followingWin;
 }
