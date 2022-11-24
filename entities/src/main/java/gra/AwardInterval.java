@@ -9,6 +9,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class AwardInterval {
 
+	private final Producer producer;
+
 	private final Integer previousWin;
 
 	private final Integer followingWin;

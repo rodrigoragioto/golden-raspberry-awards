@@ -1,8 +1,13 @@
 package gra.boundaries.input;
 
-import lombok.Builder;
-
-@Builder
 public class EmptyInputBoundary implements InputBoundary {
+
+	public static EmptyInputBoundary emptyInputBoundary() {
+		return new EmptyInputBoundary();
+	}
+
+	private EmptyInputBoundary() {
+
+	}
 
 }

@@ -48,6 +48,7 @@ public class Producer {
 			.entrySet()
 			.stream()
 			.map(entry -> AwardInterval.builder()
+				.producer(this)
 				.previousWin(entry.getKey().getYear())
 				.followingWin(entry.getValue().getYear())
 				.build());
