@@ -1,26 +1,23 @@
 package gra.h2;
 
 import static java.lang.Integer.parseInt;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.readAllLines;
-import static java.nio.file.Paths.get;
-import static java.util.Objects.requireNonNull;
 
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import gra.DataLoader;
+
 @Component
-public class H2DataLoader implements ApplicationRunner {
+public class H2DataLoader implements DataLoader {
 
 	@Autowired
 	private H2ProducerRepository producerRepository;
@@ -29,16 +26,10 @@ public class H2DataLoader implements ApplicationRunner {
 	private H2MovieRepository movieRepository;
 
 	@Override
-	public void run(ApplicationArguments args) throws Exception {
+	public void execute(String fileName) throws Exception {
 		final Map<String, Set<H2Movie>> map = new HashMap<>();
-		getLines().forEach(line -> processLine(map, line));
+		readAllLines(Paths.get(fileName)).forEach(line -> processLine(map, line));
 		map.forEach(this::createProducer);
-	}
-
-	private List<String> getLines() throws Exception {
-		final List<String> lines = readAllLines(get(requireNonNull(getClass().getClassLoader().getResource("movielist.csv")).toURI()), UTF_8);
-		lines.remove(0);
-		return lines;
 	}
 
 	private void processLine(Map<String, Set<H2Movie>> map, String line) {
@@ -72,14 +63,12 @@ public class H2DataLoader implements ApplicationRunner {
 	}
 
 	private void addProducer(Map<String, Set<H2Movie>> map, String producer, H2Movie movie) {
-		if (!map.containsKey(producer)) {
-			map.put(producer, new HashSet<>());
-		}
+		map.putIfAbsent(producer, new HashSet<>());
 		map.get(producer).add(movie);
 	}
 
-	private H2Producer createProducer(String name, Set<H2Movie> movies) {
-		return producerRepository.save(
+	private void createProducer(String name, Set<H2Movie> movies) {
+		producerRepository.save(
 			H2Producer.builder()
 				.name(name)
 				.movies(movies)
