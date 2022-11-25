@@ -15,11 +15,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>ragioto</groupId>
-			<artifactId>entities</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>ragioto</groupId>
 			<artifactId>use-cases</artifactId>
 			<version>1.0.0</version>
 		</dependency>

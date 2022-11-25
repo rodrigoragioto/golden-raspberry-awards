@@ -4,19 +4,17 @@ import static java.util.stream.Collectors.toSet;
 
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import gra.Producer;
 import gra.ports.FindProducersGateway;
 
 @Component
-class H2FindProducersGateway implements FindProducersGateway {
+public class H2FindProducersGateway implements FindProducersGateway {
 
-	private final H2ProducerRepository producerRepository;
-
-	H2FindProducersGateway(H2ProducerRepository producerRepository) {
-		this.producerRepository = producerRepository;
-	}
+	@Autowired
+	private H2ProducerRepository producerRepository;
 
 	@Override
 	public Set<Producer> execute() {

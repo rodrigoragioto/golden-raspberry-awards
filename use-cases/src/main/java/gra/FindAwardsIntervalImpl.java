@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import gra.boundaries.input.EmptyInputBoundary;
@@ -18,12 +19,9 @@ import gra.ports.FindProducersGateway;
 
 @Component
 public class FindAwardsIntervalImpl implements FindAwardsInterval {
-	
-	private final FindProducersGateway findProducersGateway;
 
-	public FindAwardsIntervalImpl(FindProducersGateway findProducersGateway) {
-		this.findProducersGateway = findProducersGateway;
-	}
+	@Autowired
+	private FindProducersGateway findProducersGateway;
 
 	@Override
 	public AwardsIntervalOutputBoundary execute(EmptyInputBoundary input) {

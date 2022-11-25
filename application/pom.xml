@@ -16,7 +16,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>ragioto</groupId>
-			<artifactId>entities</artifactId>
+			<artifactId>controllers</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 		<dependency>

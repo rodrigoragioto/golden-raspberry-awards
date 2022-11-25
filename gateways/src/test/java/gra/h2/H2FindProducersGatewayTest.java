@@ -13,19 +13,27 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 
 import gra.Producer;
+import gra.ports.FindProducersGateway;
 
 @DataJpaTest
-@Import(H2GatewaysConfiguration.class)
 class H2FindProducersGatewayTest {
+
+	@TestConfiguration
+	static class H2FindProducersGatewayTestContextConfiguration {
+
+		@Bean
+		public FindProducersGateway findMoviesGateway() {
+			return new H2FindProducersGateway();
+		}
+
+	}
 
 	@Autowired
 	private H2FindProducersGateway findProducersGateway;
-
-	@Autowired
-	private H2ProducerRepository producerRepository;
 
 	@Test
 	void shouldExecuteSuccessfully() {

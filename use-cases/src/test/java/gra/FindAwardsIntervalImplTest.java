@@ -20,6 +20,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 
 import gra.boundaries.output.AwardIntervalOutputBoundary;
@@ -32,17 +33,14 @@ class FindAwardsIntervalImplTest {
 	@TestConfiguration
 	static class FindAwardsIntervalImplTestContextConfiguration {
 
-		@Autowired
-		private FindProducersGateway findProducersGateway;
-
 		@Bean
 		public FindAwardsInterval findAwardsInterval() {
-			return new FindAwardsIntervalImpl(findProducersGateway);
+			return new FindAwardsIntervalImpl();
 		}
 
 	}
 
-	@Autowired
+	@MockBean
 	private FindProducersGateway findProducersGateway;
 
 	@Autowired

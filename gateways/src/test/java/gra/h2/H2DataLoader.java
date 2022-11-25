@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -21,14 +22,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class H2DataLoader implements ApplicationRunner {
 
-	private final H2ProducerRepository producerRepository;
+	@Autowired
+	private H2ProducerRepository producerRepository;
 
-	private final H2MovieRepository movieRepository;
-
-	public H2DataLoader(H2ProducerRepository producerRepository, H2MovieRepository movieRepository) {
-		this.producerRepository = producerRepository;
-		this.movieRepository = movieRepository;
-	}
+	@Autowired
+	private H2MovieRepository movieRepository;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
