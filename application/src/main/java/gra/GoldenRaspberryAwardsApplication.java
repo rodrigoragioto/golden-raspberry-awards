@@ -1,7 +1,7 @@
 package gra;
 
-import java.util.stream.Stream;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +16,8 @@ import gra.ports.FindProducersGateway;
 
 @SpringBootApplication
 public class GoldenRaspberryAwardsApplication {
+
+	final private Logger logger = LoggerFactory.getLogger(GoldenRaspberryAwardsApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(GoldenRaspberryAwardsApplication.class, args);
@@ -34,7 +36,18 @@ public class GoldenRaspberryAwardsApplication {
 
 	@Bean
 	CommandLineRunner load(DataLoader dataLoader) {
-		return args -> Stream.of(args).forEach(s -> System.out.println(s));
+		return args -> {
+			if (args.length == 1) {
+				try {
+					dataLoader.execute(args[0]);
+					logger.info("Data loaded successfully");
+				} catch (Exception e) {
+					logger.error("Error when loading data", e);
+				}
+			} else {
+				logger.warn("No file provided");
+			}
+		};
 	}
 
 	@Bean
