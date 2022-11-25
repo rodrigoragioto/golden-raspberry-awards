@@ -6,8 +6,8 @@ import static java.util.stream.Collectors.toMap;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,19 +24,7 @@ public class Producer {
 
 	private final Set<Movie> movies;
 
-	public AwardInterval getMinAwardInterval() {
-		return getAwardIntervalStream()
-			.min(comparingInt(AwardInterval::getInterval))
-			.orElse(null);
-	}
-
-	public AwardInterval getMaxAwardInterval() {
-		return getAwardIntervalStream()
-			.max(comparingInt(AwardInterval::getInterval))
-			.orElse(null);
-	}
-
-	private Stream<AwardInterval> getAwardIntervalStream() {
+	public Set<AwardInterval> getAwardsIntervals() {
 		final List<Movie> orderedMovies = movies
 			.stream()
 			.sorted(comparingInt(Movie::getYear))
@@ -51,8 +39,9 @@ public class Producer {
 				.producer(this)
 				.previousWin(entry.getKey().getYear())
 				.followingWin(entry.getValue().getYear())
-				.build());
+				.interval(entry.getValue().getYear() - entry.getKey().getYear())
+				.build())
+			.collect(Collectors.toSet());
 	}
 
 }
-

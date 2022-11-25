@@ -1,12 +1,10 @@
 package gra;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-@AllArgsConstructor
 public class AwardInterval {
 
 	private final Producer producer;
@@ -15,8 +13,13 @@ public class AwardInterval {
 
 	private final Integer followingWin;
 
-	public Integer getInterval() {
-		return followingWin - previousWin;
+	public final Integer interval;
+
+	public AwardInterval(Producer producer, Integer previousWin, Integer followingWin, Integer interval) {
+		this.producer = producer;
+		this.previousWin = previousWin;
+		this.followingWin = followingWin;
+		this.interval = interval;
 	}
 
 }
