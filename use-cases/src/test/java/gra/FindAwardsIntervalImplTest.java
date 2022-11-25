@@ -8,7 +8,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,21 +23,21 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
 import gra.boundaries.output.AwardIntervalOutputBoundary;
-import gra.boundaries.output.FindAwardedProducersOutputBoundary;
+import gra.boundaries.output.AwardsIntervalOutputBoundary;
 import gra.ports.FindProducersGateway;
 
 @SpringBootTest
-class FindAwardedProducersImplTest {
+class FindAwardsIntervalImplTest {
 
 	@TestConfiguration
-	static class FindAwardedProducersImplTestContextConfiguration {
+	static class FindAwardsIntervalImplTestContextConfiguration {
 
 		@Autowired
 		private FindProducersGateway findProducersGateway;
 
 		@Bean
-		public FindAwardedProducers findAwardedProducers() {
-			return new FindAwardedProducersImpl(findProducersGateway);
+		public FindAwardsInterval findAwardsInterval() {
+			return new FindAwardsIntervalImpl(findProducersGateway);
 		}
 
 	}
@@ -46,7 +46,7 @@ class FindAwardedProducersImplTest {
 	private FindProducersGateway findProducersGateway;
 
 	@Autowired
-	private FindAwardedProducers findAwardedProducers;
+	private FindAwardsInterval findAwardsInterval;
 
 	@BeforeEach
 	public void before() {
@@ -72,14 +72,14 @@ class FindAwardedProducersImplTest {
 				createMovie(2015)
 			));
 
-		when(findProducersGateway.execute())
-			.thenReturn(new HashSet<>(
+		given(findProducersGateway.execute())
+			.willReturn(new HashSet<>(
 				asList(
 					john,
 					mary
 				)));
 
-		final FindAwardedProducersOutputBoundary boundary = findAwardedProducers.execute(emptyInputBoundary());
+		final AwardsIntervalOutputBoundary boundary = findAwardsInterval.execute(emptyInputBoundary());
 
 		assertThat(boundary.getMin(), hasSize(2));
 		assertThat(boundary.getMin(), hasItems(
@@ -102,13 +102,13 @@ class FindAwardedProducersImplTest {
 				createMovie(2000)
 			));
 
-		when(findProducersGateway.execute())
-			.thenReturn(new HashSet<>(
+		given(findProducersGateway.execute())
+			.willReturn(new HashSet<>(
 				singletonList(
 					mary
 				)));
 
-		final FindAwardedProducersOutputBoundary boundary = findAwardedProducers.execute(emptyInputBoundary());
+		final AwardsIntervalOutputBoundary boundary = findAwardsInterval.execute(emptyInputBoundary());
 
 		assertThat(boundary.getMin(), empty());
 		assertThat(boundary.getMin(), empty());
@@ -116,10 +116,10 @@ class FindAwardedProducersImplTest {
 
 	@Test
 	void shouldExecuteSuccessfullyWithoutProducers() {
-		when(findProducersGateway.execute())
-			.thenReturn(emptySet());
+		given(findProducersGateway.execute())
+			.willReturn(emptySet());
 
-		final FindAwardedProducersOutputBoundary boundary = findAwardedProducers.execute(emptyInputBoundary());
+		final AwardsIntervalOutputBoundary boundary = findAwardsInterval.execute(emptyInputBoundary());
 
 		assertThat(boundary.getMin(), empty());
 		assertThat(boundary.getMin(), empty());

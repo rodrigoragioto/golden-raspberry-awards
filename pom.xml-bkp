@@ -8,7 +8,7 @@
 		<version>2.7.5</version>
 		<relativePath/>
 	</parent>
-	<groupId>ragioto</groupId>
+	<groupId>gra</groupId>
 	<artifactId>golden-raspberry-awards</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>golden-raspberry-awards</name>

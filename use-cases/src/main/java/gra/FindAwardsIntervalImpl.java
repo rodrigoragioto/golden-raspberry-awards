@@ -13,19 +13,20 @@ import org.springframework.stereotype.Component;
 
 import gra.boundaries.input.EmptyInputBoundary;
 import gra.boundaries.output.AwardIntervalOutputBoundary;
-import gra.boundaries.output.FindAwardedProducersOutputBoundary;
+import gra.boundaries.output.AwardsIntervalOutputBoundary;
 import gra.ports.FindProducersGateway;
 
 @Component
-public class FindAwardedProducersImpl implements FindAwardedProducers {
+public class FindAwardsIntervalImpl implements FindAwardsInterval {
+	
 	private final FindProducersGateway findProducersGateway;
 
-	public FindAwardedProducersImpl(FindProducersGateway findProducersGateway) {
+	public FindAwardsIntervalImpl(FindProducersGateway findProducersGateway) {
 		this.findProducersGateway = findProducersGateway;
 	}
 
 	@Override
-	public FindAwardedProducersOutputBoundary execute(EmptyInputBoundary input) {
+	public AwardsIntervalOutputBoundary execute(EmptyInputBoundary input) {
 		final Set<Producer> producers = findProducersGateway.execute();
 
 		final Map<Integer, Set<AwardInterval>> intervals = producers
@@ -48,7 +49,7 @@ public class FindAwardedProducersImpl implements FindAwardedProducers {
 			.max(comparingInt(interval -> interval))
 			.orElse(-1);
 
-		return FindAwardedProducersOutputBoundary
+		return AwardsIntervalOutputBoundary
 			.builder()
 			.min(createAwardIntervalOutputBoundary(intervals.get(min)))
 			.max(createAwardIntervalOutputBoundary(intervals.get(max)))

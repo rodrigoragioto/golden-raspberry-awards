@@ -27,6 +27,7 @@
 		<module>use-cases</module>
 		<module>gateways</module>
 		<module>application</module>
+		<module>controllers</module>
 	</modules>
 
 	<dependencyManagement>
