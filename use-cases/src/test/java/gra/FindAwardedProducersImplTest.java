@@ -8,7 +8,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
@@ -18,16 +17,36 @@ import java.util.Random;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 
 import gra.boundaries.output.AwardIntervalOutputBoundary;
 import gra.boundaries.output.FindAwardedProducersOutputBoundary;
 import gra.ports.FindProducersGateway;
 
+@SpringBootTest
 class FindAwardedProducersImplTest {
 
-	private final FindProducersGateway findProducersGateway = mock(FindProducersGateway.class);
+	@TestConfiguration
+	static class FindAwardedProducersImplTestContextConfiguration {
 
-	private final FindAwardedProducers findAwardedProducers = new FindAwardedProducersImpl(findProducersGateway);
+		@Autowired
+		private FindProducersGateway findProducersGateway;
+
+		@Bean
+		public FindAwardedProducers findAwardedProducers() {
+			return new FindAwardedProducersImpl(findProducersGateway);
+		}
+
+	}
+
+	@Autowired
+	private FindProducersGateway findProducersGateway;
+
+	@Autowired
+	private FindAwardedProducers findAwardedProducers;
 
 	@BeforeEach
 	public void before() {
