@@ -5,9 +5,11 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasItems;
 
 import java.util.HashSet;
+import java.util.Random;
 
 import org.junit.jupiter.api.Test;
 
@@ -58,6 +60,22 @@ class ProducerTest {
 		assertThat(producer.getAwardsIntervals(), empty());
 	}
 
+	@Test
+	void shouldExecuteSuccessfullyWithTwoMoviesInTheSameYear() {
+		final Producer producer = Producer.builder()
+			.name("Jonny")
+			.movies(new HashSet<>(
+				asList(
+					createMovie(1980),
+					createMovie(1980)
+				)))
+			.build();
+
+		assertThat(producer.getAwardsIntervals(), hasItem(
+			createAwardInterval(producer, 1980, 1980, 0)
+		));
+	}
+
 	private static AwardInterval createAwardInterval(Producer producer, Integer previousWin, Integer followingWin, Integer interval) {
 		return AwardInterval
 			.builder()
@@ -71,9 +89,20 @@ class ProducerTest {
 	private Movie createMovie(Integer year) {
 		return Movie.builder()
 			.id(100L)
-			.name("Name")
+			.name(randomName())
 			.year(year)
 			.build();
+	}
+
+	private String randomName() {
+		int leftLimit = 97;
+		int rightLimit = 122;
+		int targetStringLength = 10;
+
+		return new Random().ints(leftLimit, rightLimit + 1)
+			.limit(targetStringLength)
+			.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+			.toString();
 	}
 
 }

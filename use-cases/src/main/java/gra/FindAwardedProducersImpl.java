@@ -1,5 +1,6 @@
 package gra;
 
+import static java.util.Collections.emptySet;
 import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toSet;
@@ -33,15 +34,19 @@ public class FindAwardedProducersImpl implements FindAwardedProducers {
 			.flatMap(Collection::stream)
 			.collect(groupingBy(AwardInterval::getInterval, toSet()));
 
+		if (intervals.isEmpty()) {
+			intervals.put(-1, emptySet());
+		}
+
 		final Integer min = intervals.keySet()
 			.stream()
 			.min(comparingInt(interval -> interval))
-			.orElse(null);
+			.orElse(-1);
 
 		final Integer max = intervals.keySet()
 			.stream()
 			.max(comparingInt(interval -> interval))
-			.orElse(null);
+			.orElse(-1);
 
 		return FindAwardedProducersOutputBoundary
 			.builder()

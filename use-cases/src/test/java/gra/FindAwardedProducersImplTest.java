@@ -2,7 +2,10 @@ package gra;
 
 import static gra.boundaries.input.EmptyInputBoundary.emptyInputBoundary;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.mock;
@@ -70,6 +73,37 @@ class FindAwardedProducersImplTest {
 			createOutputBoundary(john.getName(), 1980, 1995, 15),
 			createOutputBoundary(mary.getName(), 2000, 2015, 15)
 		));
+	}
+
+	@Test
+	void shouldExecuteSuccessfullyWithProducerWithOnlyOneMovie() {
+		final Producer mary = createProducer(
+			"Mary",
+			singletonList(
+				createMovie(2000)
+			));
+
+		when(findProducersGateway.execute())
+			.thenReturn(new HashSet<>(
+				singletonList(
+					mary
+				)));
+
+		final FindAwardedProducersOutputBoundary boundary = findAwardedProducers.execute(emptyInputBoundary());
+
+		assertThat(boundary.getMin(), empty());
+		assertThat(boundary.getMin(), empty());
+	}
+
+	@Test
+	void shouldExecuteSuccessfullyWithoutProducers() {
+		when(findProducersGateway.execute())
+			.thenReturn(emptySet());
+
+		final FindAwardedProducersOutputBoundary boundary = findAwardedProducers.execute(emptyInputBoundary());
+
+		assertThat(boundary.getMin(), empty());
+		assertThat(boundary.getMin(), empty());
 	}
 
 	public AwardIntervalOutputBoundary createOutputBoundary(String name, Integer previousWin, Integer followingWin, Integer interval) {
